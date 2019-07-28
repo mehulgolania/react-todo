@@ -3,15 +3,49 @@ import { Button, Modal, Form } from  'react-bootstrap';
 
 class AddItem extends React.Component {
   state = {
-    show: false
+    show: false,
+    newItem: null,
   };
 
   handleShow = () => {
-    this.setState({ show: true });
+    this.setState({ 
+      ...this.state, 
+      show: true 
+    });
   }
 
   handleClose = () => {
-    this.setState({ show: false });
+    this.setState({ 
+      ...this.state, 
+      show: false 
+    });
+  }
+
+  changeHandler = (event) => {
+    this.setState({
+      ...this.state,
+      newItem: event.target.value
+    });
+  }
+
+  submitHandler = (event) => {
+    if (this.state.newItem) {
+      event.preventDefault();
+      const newTodoItem = this.state.newItem;
+      this.props.onSubmitHandler(newTodoItem);
+      this.setState({
+        ...this.state,
+        show: false,
+        newItem: null
+      })
+    }
+    else {
+      this.setState({
+        ...this.state,
+        newItem: null,
+        show: false
+      })
+    }
   }
 
   render() {
@@ -27,13 +61,13 @@ class AddItem extends React.Component {
           </Modal.Header>
 
           <Modal.Body>
-            <Form>
-              <Form.Control type="text" placeholder="Enter item detail needs to be done." />
+            <Form onSubmit={this.submitHandler}>
+              <Form.Control type="text" placeholder="Enter item detail needs to be done." onChange={this.changeHandler}/>
             </Form>
           </Modal.Body>
 
           <Modal.Footer>
-            <Button variant="primary">Save</Button>
+            <Button type="submit" variant="primary" onClick={this.submitHandler}>Save</Button>
           </Modal.Footer>
         </Modal>
       </>

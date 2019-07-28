@@ -10,6 +10,18 @@ class TodoList extends React.Component {
     ]
   }
 
+  submitHandler = (newItem) => {
+    let newTodoItem = {
+      title: newItem,
+      status: false
+    }
+    this.setState({
+      ...this.state,
+      items: this.state.items.concat(newTodoItem)
+    });
+  }
+
+
   render() {
     return(
       <>
@@ -23,7 +35,7 @@ class TodoList extends React.Component {
                   { item.status ? <Badge pill variant="danger" className="span-btn">Delete</Badge> : 
                     <>
                       <Badge pill variant="success" className="mr-2 span-btn">Edit</Badge> 
-                      <Badge pill variant="info" className="span-btn">Complete</Badge>
+                      <Badge pill variant="info" className="span-btn">done</Badge>
                     </>
                   } 
                   
@@ -33,7 +45,7 @@ class TodoList extends React.Component {
           }
         </ListGroup>
 
-        <AddTodo />
+        <AddTodo onSubmitHandler={this.submitHandler} />
       </>
     );
   }
