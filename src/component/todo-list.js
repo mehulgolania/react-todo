@@ -10,7 +10,7 @@ class TodoList extends React.Component {
     ]
   }
 
-  submitHandler = (newItem) => {
+  addTodoHandler = (newItem) => {
     let newTodoItem = {
       title: newItem,
       status: false
@@ -21,6 +21,14 @@ class TodoList extends React.Component {
     });
   }
 
+  editTodoHandler = () => {
+  
+  }
+
+  completeTodoHandler = () => {
+
+  }
+
 
   render() {
     return(
@@ -28,8 +36,12 @@ class TodoList extends React.Component {
         <h5 className="text-primary mt-5 mb-3">Todo List</h5>
         <ListGroup>
           { this.state.items &&
-            this.state.items.map((item, key) => (
-              <ListGroup.Item className="d-flex justify-content-between text-capitalize" key={key}>
+            this.state.items.map((item, index) => (
+              <ListGroup.Item 
+                className="d-flex justify-content-between text-capitalize" 
+                key={index}
+                index={index}
+              >
                 <div><span className={item.status ? 'completed' : 'pending'}>{item.title}</span></div>
                 <div>
                   { item.status ? <Badge pill variant="danger" className="span-btn">Delete</Badge> : 
@@ -45,7 +57,10 @@ class TodoList extends React.Component {
           }
         </ListGroup>
 
-        <AddTodo onSubmitHandler={this.submitHandler} />
+        <AddTodo 
+          addTodo={this.addTodoHandler} 
+          editTodo={this.editTodoHandler}
+        />
       </>
     );
   }

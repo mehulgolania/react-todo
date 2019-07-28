@@ -32,7 +32,7 @@ class AddItem extends React.Component {
     if (this.state.newItem) {
       event.preventDefault();
       const newTodoItem = this.state.newItem;
-      this.props.onSubmitHandler(newTodoItem);
+      this.props.addTodo(newTodoItem);
       this.setState({
         ...this.state,
         show: false,
@@ -40,11 +40,12 @@ class AddItem extends React.Component {
       })
     }
     else {
-      this.setState({
-        ...this.state,
-        newItem: null,
-        show: false
-      })
+      alert("Please enter something.");
+      // this.setState({
+      //   ...this.state,
+      //   newItem: null,
+      //   show: false
+      // })
     }
   }
 
@@ -52,7 +53,7 @@ class AddItem extends React.Component {
     return(
       <>
         <div className="text-center mt-5">
-          <Button variant="primary" onClick={this.handleShow}>Add Items</Button>
+          <Button variant="primary" onClick={this.handleShow}>Add Item</Button>
         </div>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
@@ -67,7 +68,7 @@ class AddItem extends React.Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button type="submit" variant="primary" onClick={this.submitHandler}>Save</Button>
+            <Button type="submit" variant="primary" onClick={this.submitHandler}>Add</Button>
           </Modal.Footer>
         </Modal>
       </>
