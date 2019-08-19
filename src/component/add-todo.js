@@ -63,7 +63,7 @@ class AddItem extends React.Component {
 
           <Modal.Body>
             <Form onSubmit={this.submitHandler}>
-              <Form.Control type="text" placeholder="Enter item detail needs to be done." onChange={this.changeHandler}/>
+              <Form.Control type="text" placeholder="Enter item detail needs to be done." onChange={this.changeHandler} />
             </Form>
           </Modal.Body>
 
