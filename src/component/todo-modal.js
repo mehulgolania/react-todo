@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal, Form } from  'react-bootstrap';
 
-class AddItem extends React.Component {
+class TodoModal extends React.Component {
   state = {
     show: false,
     newItem: null,
@@ -9,21 +9,18 @@ class AddItem extends React.Component {
 
   handleShow = () => {
     this.setState({ 
-      ...this.state, 
       show: true 
     });
   }
 
   handleClose = () => {
     this.setState({ 
-      ...this.state, 
       show: false 
     });
   }
 
   changeHandler = (event) => {
     this.setState({
-      ...this.state,
       newItem: event.target.value
     });
   }
@@ -36,8 +33,7 @@ class AddItem extends React.Component {
       this.setState({
         ...this.state,
         show: false,
-        newItem: null
-      })
+      });
     }
     else {
       alert("Please enter something.");
@@ -58,7 +54,7 @@ class AddItem extends React.Component {
 
           <Modal.Body>
             <Form onSubmit={this.submitHandler}>
-              <Form.Control type="text" placeholder="Enter item detail needs to be done." onChange={this.changeHandler} />
+              <Form.Control className="text-capitalize" type="text" placeholder="Enter item detail needs to be done." onChange={this.changeHandler} required />
             </Form>
           </Modal.Body>
 
@@ -71,4 +67,4 @@ class AddItem extends React.Component {
   }
 }
 
-export default AddItem;
+export default TodoModal;

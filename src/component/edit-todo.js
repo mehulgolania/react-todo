@@ -7,10 +7,17 @@ class EditTodo extends React.Component {
     newItem: null,
   };
 
-  handleShow = () => {
+  handleShow = (event) => {
     this.setState({ 
       show: true 
     });
+
+    this.handleEdit(event)
+  }
+
+  handleEdit(event){
+    const itemIndex = event.target.getAttribute('index');
+    console.log(itemIndex);
   }
 
   handleClose = () => {

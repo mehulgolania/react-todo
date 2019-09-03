@@ -1,7 +1,6 @@
 import React from 'react';
 import { ListGroup, Badge } from 'react-bootstrap';
-import AddTodo from './add-todo';
-import EditTodo from './edit-todo';
+import TodoModal from './todo-modal';
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -13,21 +12,18 @@ class TodoList extends React.Component {
 
   state = {
     items : [
-      { title: 'buy milk', status: true },
-      { title: 'buy bread', status: false },
-      { title: 'buy butter', status: true },
+      { title: 'buy milk', completed: true },
+      { title: 'buy bread', completed: false },
+      { title: 'buy butter', completed: true },
     ],
-    show: false
+    show: false,
+    editable: false
   }
-
-  // STATUS
-  // true = Todo completed.
-  // false = Need to be complete.
 
   addTodoHandler = (newItem) => {
     let newTodoItem = {
       title: newItem,
-      status: false
+      completed: false
     }
     this.setState({
       ...this.state,
@@ -47,17 +43,19 @@ class TodoList extends React.Component {
   completeTodoHandler = (event) => {
     const itemIndex = event.target.getAttribute('index');
     let todo = this.state.items[itemIndex];
-    if (todo.status === false){
-      todo.status = true;
+    if (todo.completed === false){
+      todo.completed = true;
     }
     let updatedTodo = this.state.items;
     this.setState({
       items: updatedTodo
-    })
-    console.log(updatedTodo);
+    });
   }
 
   handleModal = () => {
+    this.setState({
+      editable: true
+    });
     this.showModal.current.handleShow();
   }
 
@@ -75,22 +73,26 @@ class TodoList extends React.Component {
                   key={index}
                   index={index}
                 >
-                  <div><span className={item.status ? 'completed' : 'pending'}>{item.title}</span></div>
+                  <div><span className={item.completed ? 'completed' : 'pending'}>{item.title}</span></div>
                   <div>
-                    <Badge pill variant="success" className="mr-2 span-btn" index={index} onClick={this.handleModal}>Edit</Badge> 
-                    <Badge pill variant="info" className="mr-2 span-btn" index={index} onClick={this.completeTodoHandler}>{item.status ? 'Completed' : 'Mark Done'}</Badge>
+                    {!item.completed ? <Badge pill variant="success" className="mr-2 span-btn" index={index} onClick={this.handleModal}>Edit</Badge> : ''}
+
+                    {
+                      !item.completed ? <Badge pill variant="info" className="mr-2 span-btn" index={index} onClick={this.completeTodoHandler}>{item.completed ? 'Completed' : 'Mark Completed'}</Badge>
+                      : <Badge pill variant="info" className="mr-2" index={index}>{item.completed ? 'Completed' : 'Mark Completed'}</Badge> 
+                    }
+                    
                     <Badge pill variant="danger" className="span-btn" index={index} onClick={this.deleteHandler}>Delete</Badge>
                   </div>
                 </ListGroup.Item>
-              )) : <><ListGroup.Item className='text-capitalize'>List is empty...</ListGroup.Item></>
+              ))  : <>
+                      <ListGroup.Item className='text-capitalize'>List is empty...</ListGroup.Item>
+                    </>
           }
         </ListGroup>
 
-        <AddTodo 
+        <TodoModal 
           addTodo={this.addTodoHandler}
-        />
-
-        <EditTodo 
           ref={this.showModal}
         />
       </>
