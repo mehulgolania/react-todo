@@ -12,9 +12,9 @@ class TodoList extends React.Component {
 
   state = {
     items : [
-      { title: 'buy milk', completed: true },
-      { title: 'buy bread', completed: false },
-      { title: 'buy butter', completed: true },
+      { title: "buy milk", completed: true },
+      { title: "buy bread", completed: false },
+      { title: "buy butter", completed: true },
     ],
     show: false,
     editable: false
@@ -28,6 +28,19 @@ class TodoList extends React.Component {
     this.setState({
       ...this.state,
       items: this.state.items.concat(newTodoItem)
+    });
+  }
+
+  updatedTodoItemHandler = (updatedTodoItem, currentIndex) => {
+    let updatedItem = {
+      title : updatedTodoItem,
+      completed: false
+    }
+    let itemList = this.state.items;
+    itemList.splice(currentIndex, 1, updatedItem);
+    this.setState({
+      items: itemList,
+      editable: false
     });
   }
 
@@ -52,11 +65,19 @@ class TodoList extends React.Component {
     });
   }
 
-  handleModal = () => {
+  handleModal = (event) => {
     this.setState({
       editable: true
     });
-    this.showModal.current.handleShow();
+    const itemIndex = event.target.getAttribute('index');
+    const currentItem = this.state.items[itemIndex].title;
+    this.showModal.current.editHandleShow(currentItem, itemIndex);
+  }
+
+  handleClose = () => {
+    this.setState({
+      editable: false
+    });
   }
 
   render() {
@@ -94,6 +115,9 @@ class TodoList extends React.Component {
         <TodoModal 
           addTodo={this.addTodoHandler}
           ref={this.showModal}
+          editable={this.state.editable}
+          handleEditable={this.handleClose}
+          updatedItem={this.updatedTodoItemHandler}
         />
       </>
     );
