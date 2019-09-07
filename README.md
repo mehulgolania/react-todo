@@ -1,4 +1,4 @@
-# :star: React Todo App :star:
+# React Todo App
 ![showcase](screenshot.png)
 
 
